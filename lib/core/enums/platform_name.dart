@@ -1,0 +1,1 @@
+enum PlatformName { android, ios }

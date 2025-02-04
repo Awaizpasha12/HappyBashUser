@@ -1,0 +1,78 @@
+{
+  "project_info": {
+    "project_number": "93773023310",
+    "project_id": "happybash-kw",
+    "storage_bucket": "happybash-kw.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93773023310:android:82fe90a207f3c57ea55b1f",
+        "android_client_info": {
+          "package_name": "com.happybash.main"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93773023310-31irm3f62qil1c1pa7ulr8p536sldftp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.happybash.main",
+            "certificate_hash": "0a2f49d6da050d69c36f249190eafc3196822b92"
+          }
+        },
+        {
+          "client_id": "93773023310-g1vag9tes2e70ih1fhhnjdnjkaog4fb0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.happybash.main",
+            "certificate_hash": "ec3a8dfd83351e531bc95b3b950af2781b237020"
+          }
+        },
+        {
+          "client_id": "93773023310-j52vgto6n6igos4dkq7rm3eppte7ttk7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.happybash.main",
+            "certificate_hash": "c319fff5a5f52ee32a1c36c16f6836a94a6d7bb4"
+          }
+        },
+        {
+          "client_id": "93773023310-pvtpiq0o6mm1t46f21217b1ckiatu7cj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.happybash.main",
+            "certificate_hash": "524e26d83f475d04ac8fd4c82cc4146d70dda82c"
+          }
+        },
+        {
+          "client_id": "93773023310-f80h2ubisue05fo2nn092unr0do55daq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGLW1bZc2rttuvjwwQs04ehnyfAWyZflw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93773023310-f80h2ubisue05fo2nn092unr0do55daq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "93773023310-419qive76550bdpkvoctmm45db7mq2sb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.happyBash"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
