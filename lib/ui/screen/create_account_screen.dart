@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:email_validator/email_validator.dart';
 import 'package:happy_bash/ui/screen/location_screen.dart';
 
+import '../../core/constants/dialog_box.dart';
 import '../../network/base_url.dart';
 import '../../theme/theme_helper.dart';
 
@@ -62,7 +63,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       } else {
         // printMsgTag("Error meaasge", responseData["Message"]);
         responseData = jsonDecode(response.body.toString());
-        showSnackBar(context, responseData['message']);
+        ModelUtils.showSimpleAlertDialog(
+          context,
+          title: const Text("Happy bash"),
+          content: responseData['error'],
+          okBtnFunction: () => Navigator.pop(context),
+        );
+        // showSnackBar(context, responseData['message']);
         throw Exception();
       }
     } catch (exception) {

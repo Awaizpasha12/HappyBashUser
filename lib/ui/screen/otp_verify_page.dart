@@ -42,7 +42,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   final formKey = GlobalKey<FormState>();
   final pinController = TextEditingController();
   String smsCode = "";
-  int _countdown = 20;
+  int _countdown = 60;
   late Timer _timer;
   bool isLoading = false;
   @override

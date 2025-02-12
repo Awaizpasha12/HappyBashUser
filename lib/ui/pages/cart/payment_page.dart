@@ -43,6 +43,7 @@ class _PaymentPageState extends State<PaymentPage> {
   double toBePaidNow = 0.0;
   double totalAmount = 0.0;
   double deliveryCharges = 0.0;
+  bool showModel = true;
 
   Future<Map<String, dynamic>> checkoutPostApi() async {
     setState(() {
@@ -262,67 +263,103 @@ class _PaymentPageState extends State<PaymentPage> {
                           Uri uri = Uri.parse(url);
                           String? result = uri.queryParameters['result'];
                           if (result == 'CAPTURED') {
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              setState(() {
-                                _showWebView = false;
-                                _showPaymentButton = true;
+                            if (showModel) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                setState(() {
+                                  _showWebView = false;
+                                  _showPaymentButton = true;
+                                });
+                                ModelUtils.showSimpleAlertDialog(
+                                  context,
+                                  title: Text(
+                                    "Payment and Order Successful",
+                                    style: TextStyle(
+                                        color: PrimaryColors().primarycolor),
+                                  ),
+                                  content:
+                                      "Your payment was successful and your order has been placed successfully",
+                                  okBtnFunction: () {
+                                    navigateReplaceAll(
+                                        context,
+                                        BottomNavigationBarScreen(
+                                            selectedIndex: 0));
+                                  },
+                                );
+                                showModel = false;
                               });
+                            }
+                          } else if (result != 'CAPTURED') {
+                            if (showModel) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                ModelUtils.showSimpleAlertDialog(
+                                  context,
+                                  title: Text(
+                                    "Payment Failed",
+                                    style: TextStyle(color: Colors.redAccent),
+                                  ),
+                                  content:
+                                      "The payment process failed. Please try again or contact support if the issue persists.",
+                                  okBtnFunction: () {
+                                    Navigator.pop(context);
+                                  },
+                                );
+                                showModel = false;
+                              });
+                            }
+                          }
+                        } else if (url
+                                .toLowerCase()
+                                .contains('payment-cancel') ||
+                            url.toLowerCase().contains('paymentcancel')) {
+                          try {
+                            if (showModel) {
+                              debugPrint("howing simple alert dialog");
                               ModelUtils.showSimpleAlertDialog(
                                 context,
                                 title: Text(
-                                  "Payment and Order Successful",
+                                  "Payment Cancelled",
                                   style: TextStyle(
                                       color: PrimaryColors().primarycolor),
                                 ),
                                 content:
-                                    "Your payment was successful and your order has been placed successfully",
+                                    "The payment process has been cancelled. If you wish to proceed, please start again.",
                                 okBtnFunction: () {
+                                  debugPrint(
+                                      "howing simple Ok button pressed, navigating to BottomNavigationBarScreen");
                                   navigateReplaceAll(
                                       context,
                                       BottomNavigationBarScreen(
                                           selectedIndex: 0));
                                 },
                               );
-                            });
-                          } else if (result != 'CAPTURED') {
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              ModelUtils.showSimpleAlertDialog(
-                                context,
-                                title: Text(
-                                  "Payment Failed",
-                                  style: TextStyle(color: Colors.redAccent),
-                                ),
-                                content:
-                                    "The payment process failed. Please try again or contact support if the issue persists.",
-                                okBtnFunction: () {
-                                  Navigator.pop(context);
-                                },
-                              );
-                            });
+                              showModel = false;
+                            }
+                          } catch (e) {
+                            debugPrint(
+                                'howing simple Error showing alert dialog: $e');
                           }
-                        } else if (url.contains('payment-cancel')) {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            setState(() {
-                              _showWebView = false;
-                              _showPaymentButton = true;
-                            });
-                            ModelUtils.showSimpleAlertDialog(
-                              context,
-                              title: Text(
-                                "Payment Cancelled",
-                                style: TextStyle(
-                                    color: PrimaryColors().primarycolor),
-                              ),
-                              content:
-                                  "The payment process has been cancelled. If you wish to proceed, please start again.",
-                              okBtnFunction: () {
-                                navigateReplaceAll(
-                                    context,
-                                    BottomNavigationBarScreen(
-                                        selectedIndex: 0));
-                              },
-                            );
-                          });
+                          // WidgetsBinding.instance.addPostFrameCallback((_) {
+                          //   setState(() {
+                          //     _showWebView = false;
+                          //     _showPaymentButton = true;
+                          //   });
+                          //   ModelUtils.showSimpleAlertDialog(
+                          //     context,
+                          //     title: Text(
+                          //       "Payment Cancelled",
+                          //       style: TextStyle(
+                          //           color: PrimaryColors().primarycolor),
+                          //     ),
+                          //     content:
+                          //         "The payment process has been cancelled. If you wish to proceed, please start again.",
+                          //     okBtnFunction: () {
+                          //       navigateReplaceAll(
+                          //           context,
+                          //           BottomNavigationBarScreen(
+                          //               selectedIndex: 0));
+                          //     },
+                          //   );
+                          // });
                         }
                       },
                       navigationDelegate: (NavigationRequest request) {

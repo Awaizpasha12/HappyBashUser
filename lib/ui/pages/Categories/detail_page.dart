@@ -2281,6 +2281,40 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ],
         ),
+        ListView.builder(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: productDetailModel.termsConditions!.length,
+          itemBuilder: (context, index) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // const Padding(
+                //   padding: EdgeInsets.only(top: 8.0),
+                //   child: Icon(
+                //     Icons.circle,
+                //     size: 6,
+                //   ),
+                // ),
+                // 5.pw,
+                Flexible(
+                  child: Text(
+                    // 'Cannot install it on the beach if the water could reach the game',
+                    productDetailModel.termsConditions![index],
+                    style: const TextStyle(
+                      color: Color(0xFF333333),
+                      fontSize: 14,
+                      fontFamily: poppinsRegular,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
         24.ph,
         const Text(
           "Confirmation",
@@ -2342,7 +2376,7 @@ class _DetailPageState extends State<DetailPage> {
             5.pw,
             const Flexible(
               child: Text(
-                "You’ll not get refund if you cancel before 24 hours of the event date",
+                "Please review our Cancellation & Refund Policy before placing your order.",
                 style: TextStyle(
                   color: Color(0xFF333333),
                   fontSize: 14,
@@ -2385,6 +2419,17 @@ class _DetailPageState extends State<DetailPage> {
             )
           ],
         ),
+        16.ph,
+        Text(
+            productDetailModel.description ?? "",
+            // 'One Table With 4 Chairs Of Mixed Color Blocks',
+            style: const TextStyle(
+              color: Color(0xFF333333),
+              fontSize: 14,
+              fontFamily: poppinsRegular,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
         16.ph,
         //-------------- what's included section --------------//
         const Text(

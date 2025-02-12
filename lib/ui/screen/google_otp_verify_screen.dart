@@ -49,8 +49,7 @@ class _GoogleOtpVerifyScreenState extends State<GoogleOtpVerifyScreen> {
   String? userId;
   String? userToken;
   late Timer _timer;
-
-
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -75,6 +74,59 @@ class _GoogleOtpVerifyScreenState extends State<GoogleOtpVerifyScreen> {
     _timer.cancel();
     super.dispose();
   }
+  Future<Map<String, dynamic>?> sendOTPPostApi() async {
+    setState(() {
+      isLoading = true;
+    });
+    var responseData;
+    String reqParam = jsonEncode({
+      // "country_code": "+965",
+      "country_code": "+965",
+      "phone": widget.userPhone,
+    });
+
+    printMsgTag("reqParam:=", reqParam.toString());
+    // print("reqParam:=" + reqParam.toString());
+    print("url : ${BaseUrl.globalUrl}/${BaseUrl.sendOtp}");
+    final jsonResponse = await http.post(
+      Uri.parse("${BaseUrl.globalUrl}/${BaseUrl.sendOtp}"),
+      headers: {
+        "content-type": "application/json",
+        "Accept": "application/json"
+      },
+      body: reqParam,
+    );
+    try {
+      if (jsonResponse.statusCode == 200) {
+        printMsgTag("sendOTPPostApi response", jsonResponse.body.toString());
+        // print("register response${jsonResponse.body}");
+        // setIsRegistered(true);
+        responseData = jsonDecode(jsonResponse.body);
+        setState(() {
+          isLoading = false;
+        });
+        return responseData;
+      } else {
+        // showSnackBar(context, jsonResponse["Message"]);
+        throw Exception;
+      }
+    } catch (exception) {
+      print(jsonResponse.body);
+      // showSnackBar(context, jsonDecode(jsonResponse.body)['message']);
+      ModelUtils.showSimpleAlertDialog(
+        context,
+        title: const Text('Invalid credentials'),
+        content: jsonDecode(jsonResponse.body)['error'] ?? "Something went wrong. Please retry!",
+        okBtnFunction: () => Navigator.pop(context),
+      );
+      printMsgTag("sendOTPPostApi catch", exception.toString());
+    }
+    setState(() {
+      isLoading = false;
+    });
+    return responseData;
+  }
+
   //.......function for expire token........
   Future<void> saveTokenAndExpiry(String token, DateTime expiryTime) async {
     final prefs = await SharedPreferences.getInstance();
@@ -181,7 +233,12 @@ class _GoogleOtpVerifyScreenState extends State<GoogleOtpVerifyScreen> {
   Widget build(BuildContext context) {
     String secondsStr = _countdown < 10 ? '0$_countdown' : '$_countdown';
     return Scaffold(
-      body: Stack(
+      body: isLoading
+          ? Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF2A9DA0)),
+        ),
+      ) : Stack(
         children: [
           Container(
             width: width,
@@ -253,24 +310,53 @@ class _GoogleOtpVerifyScreenState extends State<GoogleOtpVerifyScreen> {
                   RichText(
                     text: TextSpan(
                       children: [
-                        const TextSpan(
-                          text: 'Resend code in ',
-                          style: TextStyle(
-                            color: Color(0xFF595959),
-                            fontSize: 14,
-                            fontFamily: poppinsRegular,
-                            fontWeight: FontWeight.w400,
+                        if (_countdown > 0) ...[
+                          const TextSpan(
+                            text: 'Resend code in ',
+                            style: TextStyle(
+                              color: Color(0xFF595959),
+                              fontSize: 14,
+                              fontFamily: poppinsRegular,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          text: '00:$secondsStr',
-                          style: const TextStyle(
-                            color: Color(0xFF2A9DA0),
-                            fontSize: 14,
-                            fontFamily: poppinsSemiBold,
-                            fontWeight: FontWeight.w600,
+                          TextSpan(
+                            text: '00:$secondsStr',
+                            style: const TextStyle(
+                              color: Color(0xFF2A9DA0),
+                              fontSize: 14,
+                              fontFamily: poppinsSemiBold,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
+                        ] else ...[
+                          TextSpan(
+                            text: 'Resend now',
+                            style: const TextStyle(
+                              color: Color(0xFF2A9DA0),
+                              fontSize: 14,
+                              fontFamily: poppinsSemiBold,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                sendOTPPostApi().then((value) {
+                                  printMsgTag("sendOtpValue", value);
+                                  if (value != null) {
+                                    if (value['message'] == "OTP sent successfully") {
+                                      startTimer();
+                                      ModelUtils.showSimpleAlertDialog(
+                                        context,
+                                        title: const Text("Happy bash"),
+                                        content: "OTP Sent Successfully",
+                                        okBtnFunction: () => Navigator.pop(context),
+                                      );
+                                    }
+                                  }
+                                });
+                              },
+                          ),
+                        ],
                       ],
                     ),
                   ),

@@ -86,7 +86,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                   text: const TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Easily',
+                        text: 'Easy',
                         style: TextStyle(
                           color: Color(0xFF333333),
                           fontSize: 24,
@@ -104,7 +104,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                         ),
                       ),
                       TextSpan(
-                        text: '  Quickly',
+                        text: '  Fast',
                         style: TextStyle(
                           color: Color(0xFF333333),
                           fontSize: 24,
@@ -122,7 +122,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                         ),
                       ),
                       TextSpan(
-                        text: '  Happily',
+                        text: '  Joy',
                         style: TextStyle(
                           color: Color(0xFF333333),
                           fontSize: 24,
