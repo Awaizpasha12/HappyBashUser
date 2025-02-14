@@ -794,10 +794,10 @@ class _HomePageState extends State<HomePage> {
                 indicatorColor: PrimaryColors().primarycolor,
                 indicatorSize: TabBarIndicatorSize.tab,
                 onTap: (value) {
-                  printMsgTag("tabbar", value);
-                  setState(() {
-                    tabValue = value;
-                  });
+                  // printMsgTag("tabbar", value);
+                  // setState(() {
+                  //   tabValue = value;
+                  // });
                 },
                 tabs: const [
                   Tab(
@@ -809,7 +809,8 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               SizedBox(
-                height: tabValue == 1 ? 170 : 170,
+                // height: tabValue == 1 ? 170 : 170,
+                height:170,
                 child: TabBarView(
                   physics: const BouncingScrollPhysics(),
                   children: [
@@ -1086,11 +1087,23 @@ class _HomePageState extends State<HomePage> {
                                         builder: (context) => SearchPage(
                                           searchValue: selectedProductName.text,
                                           eventDate:
-                                              '$startFormattedDate - $endFormattedDate',
+                                          '$startFormattedDate - $endFormattedDate',
                                         ),
-                                      )).then((value) {
-                                    setState(() {});
-                                  });
+                                      ));
+
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //       builder: (context) => SearchPage(
+                                  //         searchValue: selectedProductName.text,
+                                  //         eventDate:
+                                  //             '$startFormattedDate - $endFormattedDate',
+                                  //       ),
+                                  //     ))
+                                  //
+                                  //     .then((value) {
+                                  //   setState(() {});
+                                  // });
                                 } else {
                                   ModelUtils.showSimpleAlertDialog(
                                     context,
