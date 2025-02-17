@@ -213,23 +213,23 @@ class _LoginScreenState extends State<LoginScreen> {
       print("Additional User Info: ${auth.additionalUserInfo?.profile}");
 
       // Try fetching email directly from Apple credentials
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
-
-      print("Apple Credential Retrieved.");
-      print("Apple ID: ${appleCredential.userIdentifier}");
-      print("Apple Email: ${appleCredential.email}");
-      print("Apple Full Name: ${appleCredential.givenName} ${appleCredential.familyName}");
-
-      // Use email from Apple credential if available
-      if (email == null) {
-        email = appleCredential.email;
-        print("Email obtained from Apple credentials: $email");
-      }
+      // final appleCredential = await SignInWithApple.getAppleIDCredential(
+      //   scopes: [
+      //     AppleIDAuthorizationScopes.email,
+      //     AppleIDAuthorizationScopes.fullName,
+      //   ],
+      // );
+      //
+      // print("Apple Credential Retrieved.");
+      // print("Apple ID: ${appleCredential.userIdentifier}");
+      // print("Apple Email: ${appleCredential.email}");
+      // print("Apple Full Name: ${appleCredential.givenName} ${appleCredential.familyName}");
+      //
+      // // Use email from Apple credential if available
+      // if (email == null) {
+      //   email = appleCredential.email;
+      //   print("Email obtained from Apple credentials: $email");
+      // }
 
       print("Final Email Value: $email");
 
